@@ -8,6 +8,8 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    var slots = [WhackSlot]()
+    
     var gameScore: SKLabelNode!
     var score: Int = 0 {
         didSet {
@@ -28,8 +30,26 @@ class GameScene: SKScene {
         gameScore.horizontalAlignmentMode = .left
         gameScore.fontSize = 48
         addChild(gameScore)
+        
+        // Rows 1 and 3
+        for i in 0..<5 {
+            createSlot(at: CGPoint(x: 100 + (i * 170), y: 410))
+            createSlot(at: CGPoint(x: 100 + (i * 170), y: 230))
+        }
+        // Rows 2 and 4
+        for i in 0..<4 {
+            createSlot(at: CGPoint(x: 180 + (i * 170) , y: 320))
+            createSlot(at: CGPoint(x: 180 + (i * 170) , y: 140))
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    }
+    
+    func createSlot(at position: CGPoint) {
+        let whackSlot = WhackSlot()
+        whackSlot.configurate(at: position)
+        slots.append(whackSlot)
+        addChild(whackSlot)
     }
 }
