@@ -9,11 +9,18 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var intensity: UISlider!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
-
+    func changeFilter() {}
+    
+    func save() {}
+    
+    func intensityChanged() {}
+    
 }
 
