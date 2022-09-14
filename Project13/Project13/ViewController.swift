@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreImage
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -13,12 +14,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var intensity: UISlider!
     
     var currentImage: UIImage!
+    var context: CIContext!
+    var currentFilter: CIFilter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         title = "YACIFP" // Yet Another Core Image Filters Program
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
+        
+        context = CIContext()
+        currentFilter = CIFilter(name: "CISepiaTone")
     }
     
     @objc func importPicture() {
@@ -33,8 +39,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func save() {}
     
-    func intensityChanged() {}
+    @IBAction func intensityChanged(_ sender: Any) {
+        applyProcessing()
+    }
     
+    func applyProcessing() {
+        guard let image = currentFilter.outputImage else { return }
+        currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+        
+        if let cgimg = context.createCGImage(image, from: image.extent) {
+            let processedImage = UIImage(cgImage: cgimg)
+            imageView.image = processedImage
+        }
+    }
 }
 
 // To fulfill the inheritance of UIImagePickerControllerDelegate we need the following:
@@ -45,5 +62,10 @@ extension ViewController {
         dismiss(animated: true)
         
         currentImage = image
+        
+        let beginImage = CIImage(image: currentImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        
+        applyProcessing()
     }
 }
