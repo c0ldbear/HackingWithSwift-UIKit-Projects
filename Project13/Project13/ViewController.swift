@@ -35,7 +35,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(imagePicker, animated: true)
     }
     
-    func changeFilter() {}
+    @IBAction func changeFilter() {
+        let ac = UIAlertController(title: "Change filter", message: nil, preferredStyle: .alert)
+        let imageFilters = ["CIDumpDistortion",  "CIGaussianBlur", "CIPixellate", "CISeptiaTone", "CITwirlDistortion", "CIUnsharpMask", "CIVignette"]
+        for filter in imageFilters {
+            ac.addAction(UIAlertAction(title: filter, style: .default, handler: setFilter))
+        }
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
+    }
+    
+    func setFilter(action: UIAlertAction) {
+        guard currentImage != nil else { return }
+        guard let filter = action.title else { return }
+        
+        currentFilter = CIFilter(name: filter)
+        
+        let beginImage = CIImage(image: currentImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        
+        applyProcessing()
+    }
     
     func save() {}
     
@@ -45,7 +65,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func applyProcessing() {
         guard let image = currentFilter.outputImage else { return }
-        currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+        let inputKeys = currentFilter.inputKeys
+        
+        if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey) }
+        if inputKeys.contains(kCIInputRadiusKey) { currentFilter.setValue(intensity.value * 200, forKey: kCIInputRadiusKey) }
+        if inputKeys.contains(kCIInputScaleKey) { currentFilter.setValue(intensity.value * 10, forKey: kCIInputScaleKey) }
+        if inputKeys.contains(kCIInputCenterKey) { currentImage.setValue(CIVector(x: currentImage.size.width / 2 , y: currentImage.size.height / 2), forKey: kCIInputCenterKey) } else { print(inputKeys) }
         
         if let cgimg = context.createCGImage(image, from: image.extent) {
             let processedImage = UIImage(cgImage: cgimg)
