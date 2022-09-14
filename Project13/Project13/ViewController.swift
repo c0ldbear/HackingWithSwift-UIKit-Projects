@@ -74,7 +74,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey) }
         if inputKeys.contains(kCIInputRadiusKey) { currentFilter.setValue(intensity.value * 200, forKey: kCIInputRadiusKey) }
         if inputKeys.contains(kCIInputScaleKey) { currentFilter.setValue(intensity.value * 10, forKey: kCIInputScaleKey) }
-        if inputKeys.contains(kCIInputCenterKey) { currentImage.setValue(CIVector(x: currentImage.size.width / 2 , y: currentImage.size.height / 2), forKey: kCIInputCenterKey) } else { print(inputKeys) }
+        if inputKeys.contains(kCIInputCenterKey) { currentImage.setValue(CIVector(x: currentImage.size.width / 2 , y: currentImage.size.height / 2), forKey: kCIInputCenterKey) }
         
         if let cgimg = context.createCGImage(image, from: image.extent) {
             let processedImage = UIImage(cgImage: cgimg)
