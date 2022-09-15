@@ -10,6 +10,8 @@ import SpriteKit
 class GameScene: SKScene {
     var slots = [WhackSlot]()
     
+    var popupTime = 0.85
+    
     var gameScore: SKLabelNode!
     var score: Int = 0 {
         didSet {
@@ -41,6 +43,11 @@ class GameScene: SKScene {
             createSlot(at: CGPoint(x: 180 + (i * 170) , y: 320))
             createSlot(at: CGPoint(x: 180 + (i * 170) , y: 140))
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let weakSelf = self else { return }
+            weakSelf.createEnemey()
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -51,5 +58,26 @@ class GameScene: SKScene {
         whackSlot.configurate(at: position)
         slots.append(whackSlot)
         addChild(whackSlot)
+    }
+    
+    func createEnemey() {
+        popupTime *= 0.991
+        
+        slots.shuffle()
+        slots[0].show(hideTime: popupTime)
+        
+        if Int.random(in: 0...12) > 4 { slots[1].show(hideTime: popupTime) }
+        if Int.random(in: 0...12) > 8 { slots[2].show(hideTime: popupTime) }
+        if Int.random(in: 0...12) > 10 { slots[3].show(hideTime: popupTime) }
+        if Int.random(in: 0...12) > 12 { slots[4].show(hideTime: popupTime) }
+        
+        let minDelay = popupTime / 2
+        let maxDelay = popupTime * 2
+        let delay = Double.random(in: minDelay...maxDelay)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            guard let weakSelf = self else { return }
+            weakSelf.createEnemey()
+        }
     }
 }
