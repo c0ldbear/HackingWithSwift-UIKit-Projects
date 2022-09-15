@@ -43,6 +43,12 @@ class ViewController: UIViewController {
                 self.imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             case 5:
                 self.imageView.transform = .identity
+            case 6:
+                self.imageView.alpha = 0.1
+                self.imageView.backgroundColor = UIColor.green
+            case 7:
+                self.imageView.alpha = 1.0
+                self.imageView.backgroundColor = .clear
             default:
                 break
             }
