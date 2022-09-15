@@ -26,7 +26,20 @@ class ViewController: UIViewController {
         
     }
 
-    @IBAction func tapped(_ sender: Any) {
+    @IBAction func tapped(_ sender: UIButton) {
+        sender.isHidden = true
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [], animations: {
+            switch self.currentAnimation {
+            case 0:
+                break
+            default:
+                break
+            }
+        }) { finished in
+            sender.isHidden = true
+        }
+        
         currentAnimation += 1
         print("Current animation: \(currentAnimation)")
         if currentAnimation > 7 {
