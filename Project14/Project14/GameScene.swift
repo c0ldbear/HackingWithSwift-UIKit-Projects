@@ -65,16 +65,10 @@ class GameScene: SKScene {
             
             whackSlot.hit()
             if node.name == "charFriend" {
-                // Shouldn't have tapped it! (-1 score?)
-                print("Bad")
-                
                 score -= 5
                 
                 run(SKAction.playSoundFileNamed("whackBad.caf", waitForCompletion: false))
             } else if node.name == "charEnemy" {
-                // Great! Well done (+1 score?)
-                print("Good")
-                
                 whackSlot.charNode.xScale = 0.85
                 whackSlot.charNode.yScale = 0.85
                 score += 1
