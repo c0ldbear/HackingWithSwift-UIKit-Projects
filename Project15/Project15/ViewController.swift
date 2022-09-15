@@ -32,12 +32,14 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: 1, delay: 0, options: [], animations: {
             switch self.currentAnimation {
             case 0:
-                break
+                self.imageView.transform = CGAffineTransform(scaleX: 2, y: 2)
+            case 1:
+                self.imageView.transform = .identity
             default:
                 break
             }
         }) { finished in
-            sender.isHidden = true
+            sender.isHidden = false
         }
         
         currentAnimation += 1
