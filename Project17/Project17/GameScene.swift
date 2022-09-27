@@ -29,17 +29,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(starfield)
         starfield.zPosition = -1
         
-        player = SKSpriteNode(fileNamed: "player")
-        if let player = player {
-            player.position = CGPoint(x: 100, y: 384)
-            player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
-            player.physicsBody?.contactTestBitMask = 1
-            addChild(player)
-        }
+        player = SKSpriteNode(imageNamed: "player")
+        player.position = CGPoint(x: 100, y: 384)
+        player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
+        player.physicsBody?.contactTestBitMask = 1
+        addChild(player)
         
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.position = CGPoint(x: 16, y: 16)
         scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.text = "Score: 0"
         addChild(scoreLabel)
         
         score = 0
